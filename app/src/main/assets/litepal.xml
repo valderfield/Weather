@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<litepal>
+    <!--数据库名-->
+    <dbname value="weather"/>
+    <!--数据库版本-->
+    <version value="1"/>
+    <!--表与类关系映射-->
+    <list>
+        <mapping class="com.field.weather.db.Province"/>
+        <mapping class="com.field.weather.db.City"/>
+        <mapping class="com.field.weather.db.County"/>
+    </list>
+</litepal>
