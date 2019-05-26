@@ -1,5 +1,5 @@
 package com.field.weather.gson;
-//接收gson 的城市类
+//接收gson 的城市类 返回的是 list<CityBean>
 public class CityBean {
     private int id;
     private String name;

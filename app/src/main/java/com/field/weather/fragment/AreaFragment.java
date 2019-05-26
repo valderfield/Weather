@@ -1,5 +1,6 @@
 package com.field.weather.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.field.weather.R;
+import com.field.weather.WeatherActivity;
 import com.field.weather.api.AreaInterface;
 import com.field.weather.db.City;
 import com.field.weather.db.County;
@@ -94,6 +96,14 @@ public class AreaFragment extends Fragment {
                     selectedCity = cityList.get(position);
                     //显示县列表  第三次刷新有问题
                     showCounties();
+                    //跳转到具体天气 此处可以用eventbus
+                }else if (currentLevel == LEVEL_COUNTY){
+                    //获取选择的县区 天气id
+                    String weatherId = counties.get(position).getWeatherId();
+                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                    intent.putExtra("weather_id",weatherId);
+                    getActivity().startActivity(intent);
+                    getActivity().finish();
                 }
             }
         });
