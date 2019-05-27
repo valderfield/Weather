@@ -8,7 +8,6 @@ public class Aqi {
     public class City{
         public String aqi;
         public String pm25;
-        //空气质量
-        public String qlty;
+
     }
 }

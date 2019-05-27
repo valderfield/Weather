@@ -9,7 +9,6 @@ import java.util.List;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-
 public interface AreaInterface {
     //请求省的数据 http://guolin.tech/api/china
     //获取省列表

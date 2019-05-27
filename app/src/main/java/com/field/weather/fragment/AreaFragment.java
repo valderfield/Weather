@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.field.weather.MainActivity;
 import com.field.weather.R;
 import com.field.weather.WeatherActivity;
 import com.field.weather.api.AreaInterface;
@@ -39,20 +40,20 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * 选择省市县数据界面
+ */
 public class AreaFragment extends Fragment {
-    //
     //log
     private static final String TAG = "AreaFragment";
-    //常量
+    //省市县等级
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
     public static final int LEVEL_COUNTY = 2;
-
     //init
     private Button mBackButton;
     private TextView mShowCurrentText;
-
-    //view 数据源 适配器
+    //ListView 数据源 适配器
     private ListView mAreaListView;
     private List<String> mData = new ArrayList<>();
     private ArrayAdapter<String> mAdapter;
@@ -69,21 +70,23 @@ public class AreaFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //实例化view
         View view = inflater.inflate(R.layout.fragment_area,container,false);
+        //绑定view
         mAreaListView = view.findViewById(R.id.area_list_view);
         mBackButton = view.findViewById(R.id.back_button);
         mShowCurrentText = view.findViewById(R.id.show_current_area_text_view);
-
+        //初始化adapter
         mAdapter = new ArrayAdapter<>(getContext(),android.R.layout.simple_list_item_1,mData);
-        mAreaListView.setAdapter(mAdapter);
-
+        mAreaListView.setAdapter(mAdapter);//绑定适配器
+        //返回view
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        //listView 注册监听器 根据选择的item 等级 显示不同区域数据 默认显示省
         mAreaListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -100,14 +103,24 @@ public class AreaFragment extends Fragment {
                 }else if (currentLevel == LEVEL_COUNTY){
                     //获取选择的县区 天气id
                     String weatherId = counties.get(position).getWeatherId();
-                    Intent intent = new Intent(getActivity(), WeatherActivity.class);
-                    intent.putExtra("weather_id",weatherId);
-                    getActivity().startActivity(intent);
-                    getActivity().finish();
+                    //判断fragment 依附的activity 分别写出具体逻辑
+                    if (getActivity() instanceof MainActivity){
+                        //主界面就跳转
+                        Intent intent = new Intent(getActivity(), WeatherActivity.class);
+                        intent.putExtra("weather_id",weatherId);
+                        getActivity().startActivity(intent);
+                        getActivity().finish();
+                    }else if (getActivity() instanceof WeatherActivity){
+                        //天气界面就关闭侧滑 然后刷新
+                        WeatherActivity activity = (WeatherActivity) getActivity();
+                        activity.mDrawerLayout.closeDrawers();
+                        activity.mSwipeRefresh.setRefreshing(true);
+                        activity.requestWeather(weatherId);
+                    }
                 }
             }
         });
-        //backbutton 返回监听
+        //backbutton 注册监听 根据当前等级 返回 然后show
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,10 +135,13 @@ public class AreaFragment extends Fragment {
         showProvinces();
     }
 
-    //initdata() 显示省列表
+    /**
+     * 显示省列表 首先读取数据库 如果没有 网络请求
+     */
     private void showProvinces(){
         mBackButton.setVisibility(View.GONE);
         mShowCurrentText.setText("中国");
+        //查询所有的省数据
         provinceList = LitePal.findAll(Province.class);
         //判读 如果长度为0 就网络请求 否则就获取本地数据
         if (provinceList.size() > 0){
@@ -183,7 +199,10 @@ public class AreaFragment extends Fragment {
             queryCounties(selectedProvince.getProvinceCode(),selectedCity.getCityCode());
         }
     }
-    //rxjava + retrofit 网络请求 查询省数据
+
+    /**
+     * rx + re 网络请求省数据
+     */
     private void queryProvinces(){
         //url
         String baseUrl = "http://guolin.tech/api/";
@@ -198,17 +217,13 @@ public class AreaFragment extends Fragment {
         //获取被观察者 调度线程  与 观察者 订阅关系
         final Observable<List<ProvinceBean>> observable = areaInterface.getProvinces();
         observable.subscribeOn(Schedulers.io())
-
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                //绑定观察者
                 .subscribe(new Observer<List<ProvinceBean>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        //Log.d(TAG, "onSubscribe: ");
-                        Log.d(TAG, "onSubscribe: 县数据开始.....");
-                    }
 
+                    }
                     @Override
                     public void onNext(List<ProvinceBean> provinceBeans) {
                         //接收 被观察者 发送过来的数据
@@ -313,8 +328,7 @@ public class AreaFragment extends Fragment {
                     public void onNext(List<CountyBean> countyBeans) {
 
                         for (CountyBean countyBean : countyBeans) {
-                            Log.d(TAG, "县: " + countyBean.getName() +" ---" + countyBean.getWeather_id());
-
+                            //Log.d(TAG, "县: " + countyBean.getName() +" ---" + countyBean.getWeather_id());
                             County county = new County();
                             county.setCountyName(countyBean.getName());
                             county.setWeatherId(countyBean.getWeather_id());

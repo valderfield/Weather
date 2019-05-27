@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +23,7 @@ import com.field.weather.api.WeatherInterface;
 import com.field.weather.gson.Forecast;
 import com.field.weather.gson.ObjectBean;
 import com.field.weather.gson.Weather;
+import com.field.weather.service.AutoUpdateService;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -50,35 +53,38 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * 6.将网络请求数据 用sp缓存 然后显示在组件上
  * 7.获取没日bing图 导入glide 包
  * 8.融合状态栏
+ * 9.手动刷新 下拉刷新
+ * 10.切换天气
+ * 11.后台自动更新天气 和 图片
  *
  *  */
 public class WeatherActivity extends AppCompatActivity {
+    //log
     private static final String TAG = "WeatherActivity";
-    //private String mWeatherId;
+    //api key
     public static final String HF_KEY = "ab09814f098240219ac71733297ff0d2";
-    //天气类 映射 json
-
+    //init
     private ScrollView mWeatherLayout;
     private TextView mTitleCity,mTittleUpdateTime,
     mDegreeText,mWeatherInfoText,mAqiTex,mPm25Text,mComfortText,
     mCarWashText,mSportText;
     private LinearLayout mForecastLayout;
-
     //背景图片
     private ImageView mBingPicImage;
-
-
+    //下拉刷新
+    public SwipeRefreshLayout mSwipeRefresh;
+    //刷新需要全局的 天气id;
+    private String mWeatherId;
+    //侧滑
+    public DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //融合状态栏
-        if(Build.VERSION.SDK_INT >= 21){
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         setContentView(R.layout.activity_weather);
 
         //init view
@@ -88,15 +94,13 @@ public class WeatherActivity extends AppCompatActivity {
         mDegreeText = findViewById(R.id.degree_text);
         mWeatherInfoText = findViewById(R.id.weather_info_text);
         mAqiTex = findViewById(R.id.aqi_text);
-        //mPm25Text = findViewById(R.id.)
         mComfortText = findViewById(R.id.comfort_text);
         mCarWashText = findViewById(R.id.car_wash_text);
         mSportText = findViewById(R.id.sport_text);
-
         mForecastLayout = findViewById(R.id.forecast_layout);
-
-        //bing
         mBingPicImage = findViewById(R.id.bing_pic_img);
+        mSwipeRefresh = findViewById(R.id.swipe_refresh);
+        mDrawerLayout = findViewById(R.id.drawer_layout);
         //先读取本地 如果没有就 网络请求然后回调
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherResponse = preferences.getString("weather",null);
@@ -105,12 +109,15 @@ public class WeatherActivity extends AppCompatActivity {
             //{}表示对象 要取名字 如果数组有名字 那么返回的list集合的名字也要与之对应
             ObjectBean objectBean = new Gson().fromJson(weatherResponse, ObjectBean.class);
             Weather weather = objectBean.weatherList.get(0);
+            //获取weatherid 用于更新
+            mWeatherId = weather.basic.id;
             showWeather(weather);
         }else {
-            String weatherId = getIntent().getStringExtra("weather_id");
-            requestWeather(weatherId);
+            //String weatherId = getIntent().getStringExtra("weather_id");
+            mWeatherId = getIntent().getStringExtra("weather_id");
+            //requestWeather(weatherId);
+            requestWeather(mWeatherId);
         }
-
         //更新背景 先读缓存 没有再获取网络请求 然后存入sp 最后回调更新
         String bingPic = preferences.getString("bingPic", null);
         if (bingPic != null){
@@ -118,6 +125,13 @@ public class WeatherActivity extends AppCompatActivity {
         }else {
             loadBingPic();
         }
+        //下拉刷新注册监听器
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestWeather(mWeatherId);
+            }
+        });
     }
     //网络请求bingPic
     private void loadBingPic() {
@@ -157,20 +171,19 @@ public class WeatherActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        mSwipeRefresh.setRefreshing(false);
                     }
 
                     @Override
                     public void onComplete() {
-
+                        mSwipeRefresh.setRefreshing(false);
                     }
                 });
 
 
     }
     //根据weatherid 获取天气
-
-    private void requestWeather(String weatherId){
+    public void requestWeather(final String weatherId){
         //用集合的方式
         Map<String,String> options = new HashMap<>();
         options.put("cityid",weatherId);
@@ -207,10 +220,13 @@ public class WeatherActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.putString("weather",weatherResponse);
                                 editor.apply();
-
+                                //获取天气id
+                            mWeatherId = weather.basic.id;
                                 //更新UI
                                 showWeather(weather);
                             }
+                            //关闭刷新
+                            mSwipeRefresh.setRefreshing(false);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -246,27 +262,12 @@ public class WeatherActivity extends AppCompatActivity {
             maxText.setText(forecast.tmp.max);
             minText.setText(forecast.tmp.min);
             mForecastLayout.addView(view);
+            //开启后台更新
+            startService(new Intent(this, AutoUpdateService.class));
         }
-
         mAqiTex.setText(weather.aqi.city.aqi);
-
         mComfortText.setText(weather.suggestion.comf.txt);
         mSportText.setText(weather.suggestion.sport.txt);
         mCarWashText.setText(weather.suggestion.cw.txt);
-    }
-
-    //json
-    private void toGSON(ResponseBody responseBody){
-        try {
-            JSONObject jsonObject = new JSONObject(responseBody.string());
-            JSONArray heWeather = jsonObject.getJSONArray("HeWeather");
-            String weather = heWeather.getJSONObject(0).toString();
-            Weather weather1 = new Gson().fromJson(weather, Weather.class);
-            Log.d(TAG, "onNext: " + weather1.now.cond_txt);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
