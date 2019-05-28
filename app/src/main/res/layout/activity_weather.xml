@@ -49,6 +49,10 @@
             />
     </android.support.v4.widget.DrawerLayout>
     <!--手动下拉刷新-->
-
-
+    <!--底部导航栏-->
+    <android.support.design.widget.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:menu="@menu/navigation_menu"/>
 </FrameLayout>

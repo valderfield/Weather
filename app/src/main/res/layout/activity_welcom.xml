@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WelcomeActivity">
+    <!--欢迎界面布局 定时器 跳过-->
+
+    <!--<WebView-->
+        <!--android:id="@+id/web_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
+    <!--style 防止白屏-->
+    <!--<ImageView-->
+        <!--android:id="@+id/welcome_image"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:src="@drawable/welcome"-->
+        <!--android:scaleType="centerCrop"/>-->
+    <!--帧布局 要注意 顺序-->
+    <TextView
+        android:id="@+id/time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|top"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="40dp"
+        android:textSize="16sp"
+        />
+    <!---->
+    <Button
+        android:id="@+id/skip_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:background="@drawable/button_skip_shape"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+        android:text="跳过"/>
+</FrameLayout>

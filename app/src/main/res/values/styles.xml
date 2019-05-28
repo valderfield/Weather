@@ -14,4 +14,11 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="android:windowBackground">@mipmap/logo</item>-->
     </style>
+    <style name="WelcomeActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:windowBackground">@drawable/welcome</item>-->
+        <item name="android:windowBackground">@drawable/welcome_rain</item>
+    </style>
 </resources>

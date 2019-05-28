@@ -13,19 +13,44 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyTheme">
-        <service
-            android:name=".service.AutoUpdateService"
+        <!--强制下线广播-->
+        <receiver
+            android:name=".broadcast.ForceOfflineReceiver"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.field.weather.recevier.foreceOffline"/>
+            </intent-filter>
+        </receiver>
 
-        <activity android:name=".WeatherActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".WelcomeActivity"
+            android:theme="@style/WelcomeActivityTheme">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+
+        <service
+            android:name=".service.AutoUpdateService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".WeatherActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>
