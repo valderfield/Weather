@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.WeatherFragment">
+    <ImageView
+        android:id="@+id/bing_pic_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+    <!--取消侧滑切换地区-->
+    <!--<android.support.v4.widget.DrawerLayout-->
+        <!--android:id="@+id/drawer_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ScrollView
+                android:id="@+id/weather_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                android:overScrollMode="never">
+                <!--给系统状态栏预留空间-->
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fitsSystemWindows="true">
+                    <!--toolbar-->
+                    <android.support.v7.widget.Toolbar
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize">
+                        <!--search view-->
+                        <android.support.v7.widget.SearchView
+                            android:id="@+id/area_search_view"
+                            android:layout_marginTop="10dp"
+                            android:layout_width="400dp"
+                            android:layout_height="wrap_content"
+                            app:queryHint="请输入要查询的城市"
+                            />
+                        <!--<Button-->
+                        <!--android:layout_margin="10dp"-->
+                        <!--android:id="@+id/share_button"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="分享"/>-->
+
+                    </android.support.v7.widget.Toolbar>
+
+                    <include layout="@layout/title"/>
+                    <include layout="@layout/now"/>
+                    <include layout="@layout/forecast"/>
+                    <include layout="@layout/aqi"/>
+                    <include layout="@layout/suggestion"/>
+                </LinearLayout>
+            </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+    <!--取消侧滑菜单-->
+        <!--<fragment-->
+            <!--android:id="@+id/area_fragment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:name="com.field.weather.fragment.AreaFragment"-->
+            <!--android:layout_gravity="start"-->
+            <!--/>-->
+    <!--</android.support.v4.widget.DrawerLayout>-->
+    <!--手动下拉刷新-->
+
+</FrameLayout>

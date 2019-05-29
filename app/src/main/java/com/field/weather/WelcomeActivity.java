@@ -35,8 +35,6 @@ public class WelcomeActivity extends AppCompatActivity {
     private Handler mHandler;
     private Runnable mRunnable;
 
-
-
     //计时器
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +90,7 @@ public class WelcomeActivity extends AppCompatActivity {
         mHandler.postDelayed(mRunnable = new Runnable() {
             @Override
             public void run() {
-                    //是否换成全局变量
+
                     Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();

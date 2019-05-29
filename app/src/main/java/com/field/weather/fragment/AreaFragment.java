@@ -113,9 +113,25 @@ public class AreaFragment extends Fragment {
                     }else if (getActivity() instanceof WeatherActivity){
                         //天气界面就关闭侧滑 然后刷新
                         WeatherActivity activity = (WeatherActivity) getActivity();
-                        activity.mDrawerLayout.closeDrawers();
-                        activity.mSwipeRefresh.setRefreshing(true);
-                        activity.requestWeather(weatherId);
+//                        activity.mDrawerLayout.closeDrawers();
+//                        activity.mSwipeRefresh.setRefreshing(true);
+//                        activity.requestWeather(weatherId);
+                        //当点击县列表的时候 跳转回 home fragment  然后更新!
+                        //获取weather fragment 实例
+                        WeatherFragment weatherFragment = (WeatherFragment) activity.
+                                getSupportFragmentManager()
+                                .findFragmentByTag("android:switcher:" + R.id.fragment_view_pager + ":0");
+                        //调用更新天气方法
+                        weatherFragment.requestWeather(weatherId);
+                        //weatherFragment.loadBingPic();
+                        //切换回到weatherFragment 界面
+                        activity.mFragmentViewPager.setCurrentItem(0);
+
+                        //areaFragment 列表还原
+                        showProvinces();
+
+
+
                     }
                 }
             }

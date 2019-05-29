@@ -43,14 +43,14 @@ public class LoginActivity extends AppCompatActivity {
         boolean isFirst = preferences.getBoolean("is_first",true);
 
         if (isFirst){
-            Toast.makeText(this,"第一次登陆 要注册",Toast.LENGTH_LONG).show();
+            //Toast.makeText(this,"第一次登陆 要注册",Toast.LENGTH_LONG).show();
             editor.putBoolean("is_first",false);
             //editor.commit();//
             editor.apply();
             //startActivity(new Intent(this,MainActivity.class));
             //finish();
         }else {
-            Toast.makeText(this, "不是第一次启动", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "不是第一次启动", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this,WelcomeActivity.class));
             finish();
         }
@@ -87,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                         .setShowWhen(true)
                         .setAutoCancel(true)
                         .setSmallIcon(R.mipmap.ic_launcher)
+                        .setDefaults(Notification.DEFAULT_VIBRATE)
                         .build();
                 NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
                 manager.notify(1,notification);

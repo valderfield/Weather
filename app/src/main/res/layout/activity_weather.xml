@@ -1,58 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--修改布局后 让fragment比重为1-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
+    android:orientation="vertical"
     tools:context=".WeatherActivity">
-    <ImageView
-        android:id="@+id/bing_pic_img"
+    <!--加上viewpager 后-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/fragment_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
-    <!--切换地区-->
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ScrollView
-                android:id="@+id/weather_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none"
-                android:overScrollMode="never">
-                <!--给系统状态栏预留空间-->
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fitsSystemWindows="true">
-                    <include layout="@layout/title"/>
-                    <include layout="@layout/now"/>
-                    <include layout="@layout/forecast"/>
-                    <include layout="@layout/aqi"/>
-                    <include layout="@layout/suggestion"/>
-                </LinearLayout>
-            </ScrollView>
-        </android.support.v4.widget.SwipeRefreshLayout>
-        <fragment
-            android:id="@+id/area_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:name="com.field.weather.fragment.AreaFragment"
-            android:layout_gravity="start"
-            />
-    </android.support.v4.widget.DrawerLayout>
-    <!--手动下拉刷新-->
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!--<fragment-->
+        <!--android:id="@+id/weather_fragment"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:name="com.field.weather.fragment.WeatherFragment"/>-->
+    <!--<ImageView-->
+        <!--android:id="@+id/bing_pic_img"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:scaleType="centerCrop"/>-->
+
+
+    <!--&lt;!&ndash;切换地区&ndash;&gt;-->
+    <!--<android.support.v4.widget.DrawerLayout-->
+        <!--android:id="@+id/drawer_layout"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<android.support.v4.widget.SwipeRefreshLayout-->
+            <!--android:id="@+id/swipe_refresh"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent">-->
+            <!--<ScrollView-->
+                <!--android:id="@+id/weather_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:scrollbars="none"-->
+                <!--android:overScrollMode="never">-->
+                <!--&lt;!&ndash;给系统状态栏预留空间&ndash;&gt;-->
+                <!--<LinearLayout-->
+                    <!--android:orientation="vertical"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:fitsSystemWindows="true">-->
+                    <!--&lt;!&ndash;toolbar&ndash;&gt;-->
+                    <!--<android.support.v7.widget.Toolbar-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="?attr/actionBarSize">-->
+                        <!--&lt;!&ndash;search view&ndash;&gt;-->
+                        <!--<android.support.v7.widget.SearchView-->
+                            <!--android:layout_width="200dp"-->
+                            <!--android:layout_height="wrap_content"-->
+
+                            <!--/>-->
+                        <!--&lt;!&ndash;<Button&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_margin="10dp"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:id="@+id/share_button"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                            <!--&lt;!&ndash;android:text="分享"/>&ndash;&gt;-->
+
+                    <!--</android.support.v7.widget.Toolbar>-->
+
+                    <!--<include layout="@layout/title"/>-->
+                    <!--<include layout="@layout/now"/>-->
+                    <!--<include layout="@layout/forecast"/>-->
+                    <!--<include layout="@layout/aqi"/>-->
+                    <!--<include layout="@layout/suggestion"/>-->
+                <!--</LinearLayout>-->
+            <!--</ScrollView>-->
+        <!--</android.support.v4.widget.SwipeRefreshLayout>-->
+        <!--<fragment-->
+            <!--android:id="@+id/area_fragment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:name="com.field.weather.fragment.AreaFragment"-->
+            <!--android:layout_gravity="start"-->
+            <!--/>-->
+    <!--</android.support.v4.widget.DrawerLayout>-->
+    <!--&lt;!&ndash;手动下拉刷新&ndash;&gt;-->
     <!--底部导航栏-->
     <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:background="?android:attr/windowBackground"
         app:menu="@menu/navigation_menu"/>
-</FrameLayout>
+</LinearLayout>

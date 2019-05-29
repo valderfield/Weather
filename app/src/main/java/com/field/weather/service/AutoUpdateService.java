@@ -30,8 +30,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static com.field.weather.WeatherActivity.HF_KEY;
+import static com.field.weather.fragment.WeatherFragment.HF_KEY;
 
 /**
  * 后台自动更新天气和bing图片

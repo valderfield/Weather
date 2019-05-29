@@ -2,14 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <!--底部导航item-->
     <item
-        android:id="@+id/navigation_home"
-
+        android:id="@+id/nav_home"
         android:title="home" />
     <item
-        android:id="@+id/navigation_dashboard"
-
-        android:title="信息" />
+        android:id="@+id/nav_area"
+        android:title="切换城市" />
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/nav_myself"
         android:title="我的" />
 </menu>
