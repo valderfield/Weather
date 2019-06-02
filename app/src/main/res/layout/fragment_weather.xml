@@ -33,23 +33,25 @@
                     android:fitsSystemWindows="true">
                     <!--toolbar-->
                     <android.support.v7.widget.Toolbar
+                        android:id="@+id/weather_fragment_toolbar"
                         android:layout_width="match_parent"
+                        android:layout_marginTop="10dp"
                         android:layout_height="?attr/actionBarSize">
+                        <!--take picture button-->
+                        <!--<Button-->
+                            <!--android:id="@+id/take_picture_button"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:text="拍照"/>-->
                         <!--search view-->
                         <android.support.v7.widget.SearchView
                             android:id="@+id/area_search_view"
                             android:layout_marginTop="10dp"
-                            android:layout_width="400dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_width="280dp"
                             android:layout_height="wrap_content"
                             app:queryHint="请输入要查询的城市"
                             />
-                        <!--<Button-->
-                        <!--android:layout_margin="10dp"-->
-                        <!--android:id="@+id/share_button"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="分享"/>-->
-
                     </android.support.v7.widget.Toolbar>
 
                     <include layout="@layout/title"/>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--toolbar 上增加 分享功能-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/toolbar_share"
+        app:showAsAction="ifRoom"
+        android:title="分享"/>
+    <item android:id="@+id/second"
+        android:title="功能拓展2"/>
+    <item android:id="@+id/third"
+        android:title="功能拓展3"/>
+    <item android:id="@+id/fourth"
+        android:title="功能拓展4"/>
+</menu>
