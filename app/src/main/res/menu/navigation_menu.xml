@@ -3,11 +3,14 @@
     <!--底部导航item-->
     <item
         android:id="@+id/nav_home"
-        android:title="home" />
+        android:title="首页"
+        android:icon="@drawable/home_green"/>
     <item
         android:id="@+id/nav_area"
-        android:title="切换城市" />
+        android:title="城市"
+        android:icon="@drawable/city_green"/>
     <item
         android:id="@+id/nav_myself"
-        android:title="我的" />
+        android:title="我的"
+        android:icon="@drawable/customer_green"/>
 </menu>

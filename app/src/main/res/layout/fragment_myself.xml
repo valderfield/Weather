@@ -5,23 +5,46 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="#fff"
     tools:context=".fragment.MyselfFragment">
+    <!--头像 网名  个性签名 可以给头像设置背景-->
 
-    <!--icon-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#f0f"
-        android:layout_weight="1">
-        <TextView
+        <ImageView
+            android:id="@+id/background_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="这是头像区域"/>
-    </LinearLayout>
+            android:layout_height="140dp"
+            android:src="@drawable/background_think"
+            android:scaleType="centerCrop"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/myself_fragment_circle_view"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/face"
+            />
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Merci"/>
+        <TextView
+            android:id="@+id/personal_mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal"
+            android:text="个性签名:  程序不是年轻的专利，但是，他属于年轻"/>
+    <!--个人信息显示 与 设置 退出-->
     <android.support.design.widget.NavigationView
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
-        android:layout_height="0dp"
-        android:layout_weight="5"
-        app:menu="@menu/nav_myself_menu"/>
+        android:layout_height="match_parent"
+        app:menu="@menu/nav_myself_menu">
+
+    </android.support.design.widget.NavigationView>
 </LinearLayout>

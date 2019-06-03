@@ -1,35 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-
-            android:title="Import"/>
-        <item
-            android:id="@+id/nav_gallery"
-
-            android:title="Gallery"/>
-        <item
-            android:id="@+id/nav_slideshow"
-
-            android:title="Slideshow"/>
-        <item
-            android:id="@+id/nav_manage"
-
-            android:title="Tools"/>
-    </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-
-                android:title="Share"/>
-            <item
-                android:id="@+id/nav_send"
-
-                android:title="Send"/>
-        </menu>
-    </item>
-
+        <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_phone"
+                    android:icon="@drawable/phone_green"
+                    android:title="电话"/>
+                <item
+                    android:id="@+id/nav_friends"
+                    android:icon="@drawable/friends_green"
+                    android:title="朋友"/>
+                <item
+                    android:id="@+id/nav_mail"
+                    android:icon="@drawable/mail_green"
+                    android:title="邮箱"/>
+                <item
+                    android:id="@+id/nav_location"
+                    android:icon="@drawable/location_green"
+                    android:title="定位"/>
+                <item
+                    android:id="@+id/nav_settings"
+                    android:icon="@drawable/settings_green"
+                    android:title="设置"/>
+                <item
+                    android:id="@+id/nav_quit"
+                    android:icon="@drawable/quit_green"
+                    android:title="退出"/>
+        </group>
 </menu>
